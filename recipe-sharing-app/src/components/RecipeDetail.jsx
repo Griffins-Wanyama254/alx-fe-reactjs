@@ -1,4 +1,4 @@
-import { useRecipeStore } from "./store";
+import { useRecipeStore } from "../recipeStore";
 import EditRecipeForm from "./EditRecipeForm";
 import DeleteRecipeButton from "./DeleteRecipeButton";
 
@@ -20,3 +20,4 @@ const RecipeDetails = ({ recipeId }) => {
 };
 
 export default RecipeDetails;
+

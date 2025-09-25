@@ -2,10 +2,10 @@ import create from "zustand";
 
 export const useRecipeStore = create((set) => ({
   recipes: [],
-  searchTerm: "",
-  filteredRecipes: [],
-
-  // CRUD actions
+  favorites: [],
+  recommendations: [],
+  
+  // CRUD
   addRecipe: (recipe) =>
     set((state) => ({
       recipes: [...state.recipes, { ...recipe, id: Date.now() }],
@@ -21,7 +21,9 @@ export const useRecipeStore = create((set) => ({
       ),
     })),
 
-  // Search/filter actions
+  // Search & filter (Task 3)
+  searchTerm: "",
+  filteredRecipes: [],
   setSearchTerm: (term) => set({ searchTerm: term }),
   filterRecipes: () =>
     set((state) => ({
@@ -29,4 +31,22 @@ export const useRecipeStore = create((set) => ({
         recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase())
       ),
     })),
+
+  // Favorites
+  addFavorite: (recipeId) =>
+    set((state) => ({ favorites: [...state.favorites, recipeId] })),
+  removeFavorite: (recipeId) =>
+    set((state) => ({
+      favorites: state.favorites.filter((id) => id !== recipeId),
+    })),
+
+  // Recommendations (simple mock)
+  generateRecommendations: () =>
+    set((state) => {
+      const recommended = state.recipes.filter(
+        (recipe) =>
+          state.favorites.includes(recipe.id) && Math.random() > 0.5
+      );
+      return { recommendations: recommended };
+    }),
 }));

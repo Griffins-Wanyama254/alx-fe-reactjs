@@ -10,3 +10,13 @@ export const searchUsers = async (username) => {
   });
   return response.data.items;
 };
+
+// New function for fetching a single user's data (Task 2)
+export const fetchUserData = async (username) => {
+  const response = await axios.get(`https://api.github.com/users/${username}`, {
+    headers: {
+      Authorization: `token ${GITHUB_API_KEY}`,
+    },
+  });
+  return response.data;
+};

@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { fetchUserData } from "./services/githubService";
+import { fetchUserData } from "../services/githubService";
 
-function App() {
+const Search = () => {
   const [username, setUsername] = useState("");
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const handleSearch = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
@@ -25,8 +25,7 @@ function App() {
 
   return (
     <div>
-      <h1>GitHub User Search</h1>
-      <form onSubmit={handleSearch}>
+      <form onSubmit={handleSubmit}>
         <input
           type="text"
           placeholder="Enter GitHub username"
@@ -49,6 +48,6 @@ function App() {
       )}
     </div>
   );
-}
+};
 
-export default App;
+export default Search;

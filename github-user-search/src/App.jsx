@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import SearchBar from "./components/SearchBar";
 import UserCard from "./components/UserCard";
-import { fetchUserData } from "./services/githubService";
+import { searchUsers } from "./services/githubService";
 
 function App() {
   const [username, setUsername] = useState("");
-  const [userData, setUserData] = useState(null);
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -13,11 +13,15 @@ function App() {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    setUserData(null);
+    setUsers([]);
 
     try {
-      const data = await fetchUserData(username);
-      setUserData(data);
+      const results = await searchUsers(username);
+      if (results.length === 0) {
+        setError("Looks like we can't find the user");
+      } else {
+        setUsers(results);
+      }
     } catch (err) {
       setError("Looks like we can't find the user");
     } finally {
@@ -31,7 +35,9 @@ function App() {
       <SearchBar username={username} setUsername={setUsername} onSearch={handleSearch} />
       {loading && <p>Loading...</p>}
       {error && <p>{error}</p>}
-      {userData && <UserCard user={userData} />}
+      {users.map((user) => (
+        <UserCard key={user.id} user={user} />
+      ))}
     </div>
   );
 }

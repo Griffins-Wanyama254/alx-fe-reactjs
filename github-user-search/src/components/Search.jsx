@@ -30,8 +30,8 @@ const Search = () => {
   };
 
   return (
-    <div className="p-4 max-w-md mx-auto">
-      <form onSubmit={handleSearch} className="flex flex-col gap-2">
+    <div className="p-4 max-w-lg mx-auto">
+      <form onSubmit={handleSearch} className="flex flex-col gap-3">
         <input
           type="text"
           placeholder="GitHub username"
@@ -61,28 +61,31 @@ const Search = () => {
         </button>
       </form>
 
-      {loading && <p>Loading...</p>}
-      {error && <p>{error}</p>}
+      {loading && <p className="mt-2">Loading...</p>}
+      {error && <p className="mt-2 text-red-500">{error}</p>}
 
-      {users.map((user) => (
-        <div
-          key={user.id}
-          className="border p-2 mt-2 rounded flex items-center gap-2"
-        >
-          <img src={user.avatar_url} alt={user.login} width="50" />
-          <div>
-            <h3>{user.login}</h3>
-            <p>{user.location || "Location unknown"}</p>
-            <a
-              href={user.html_url}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              View Profile
-            </a>
+      <div className="mt-4 flex flex-col gap-2">
+        {users.map((user) => (
+          <div
+            key={user.id}
+            className="border p-2 rounded flex items-center gap-3"
+          >
+            <img src={user.avatar_url} alt={user.login} width="50" />
+            <div>
+              <h3 className="font-semibold">{user.login}</h3>
+              <p>{user.location || "Location unknown"}</p>
+              <a
+                href={user.html_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 underline"
+              >
+                View Profile
+              </a>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };

@@ -4,7 +4,7 @@ import Search from "./components/Search";
 function App() {
   return (
     <div>
-      <h1 className="text-2xl font-bold p-4 text-center">
+      <h1 className="text-2xl font-bold text-center p-4">
         GitHub User Search
       </h1>
       <Search />

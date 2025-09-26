@@ -17,11 +17,8 @@ const Search = () => {
 
     try {
       const results = await searchUsers({ username, location, minRepos });
-      if (results.length === 0) {
-        setError("Looks like we can't find the user");
-      } else {
-        setUsers(results);
-      }
+      if (!results || results.length === 0) setError("Looks like we can't find the user");
+      else setUsers(results);
     } catch {
       setError("Looks like we can't find the user");
     } finally {
@@ -30,7 +27,7 @@ const Search = () => {
   };
 
   return (
-    <div className="p-4 max-w-lg mx-auto">
+    <div className="p-6 max-w-lg mx-auto">
       <form onSubmit={handleSearch} className="flex flex-col gap-3">
         <input
           type="text"
@@ -53,10 +50,7 @@ const Search = () => {
           onChange={(e) => setMinRepos(e.target.value)}
           className="p-2 border rounded"
         />
-        <button
-          type="submit"
-          className="bg-blue-500 text-white p-2 rounded"
-        >
+        <button type="submit" className="bg-blue-500 text-white p-2 rounded">
           Search
         </button>
       </form>
@@ -64,28 +58,17 @@ const Search = () => {
       {loading && <p className="mt-2">Loading...</p>}
       {error && <p className="mt-2 text-red-500">{error}</p>}
 
-      <div className="mt-4 flex flex-col gap-2">
-        {users.map((user) => (
-          <div
-            key={user.id}
-            className="border p-2 rounded flex items-center gap-3"
-          >
-            <img src={user.avatar_url} alt={user.login} width="50" />
-            <div>
-              <h3 className="font-semibold">{user.login}</h3>
-              <p>{user.location || "Location unknown"}</p>
-              <a
-                href={user.html_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600 underline"
-              >
-                View Profile
-              </a>
-            </div>
+      {users.map((user) => (
+        <div key={user.id} className="border p-3 rounded flex items-center gap-3 mt-2">
+          <img src={user.avatar_url} alt={user.login} className="w-12 h-12 rounded-full" />
+          <div>
+            <h3 className="font-semibold">{user.login}</h3>
+            <a href={user.html_url} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
+              View Profile
+            </a>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   );
 };

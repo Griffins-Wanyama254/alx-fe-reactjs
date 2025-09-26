@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import SearchBar from "./components/SearchBar";
+import UserCard from "./components/UserCard";
 import { fetchUserData } from "./services/githubService";
 
 function App() {
@@ -26,27 +28,10 @@ function App() {
   return (
     <div>
       <h1>GitHub User Search</h1>
-      <form onSubmit={handleSearch}>
-        <input
-          type="text"
-          placeholder="Enter GitHub username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <button type="submit">Search</button>
-      </form>
-
+      <SearchBar username={username} setUsername={setUsername} onSearch={handleSearch} />
       {loading && <p>Loading...</p>}
       {error && <p>{error}</p>}
-      {userData && (
-        <div style={{ border: "1px solid #ccc", padding: "10px", marginTop: "10px" }}>
-          <img src={userData.avatar_url} alt={userData.login} width="50" />
-          <h3>{userData.name || userData.login}</h3>
-          <a href={userData.html_url} target="_blank" rel="noopener noreferrer">
-            View GitHub Profile
-          </a>
-        </div>
-      )}
+      {userData && <UserCard user={userData} />}
     </div>
   );
 }

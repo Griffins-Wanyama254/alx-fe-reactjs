@@ -1,20 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 
-const SearchBar = ({ onSearch }) => {
-  const [input, setInput] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSearch(input);
-  };
-
+const SearchBar = ({ username, setUsername, onSearch }) => {
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={onSearch}>
       <input
         type="text"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        placeholder="Search GitHub users..."
+        placeholder="Enter GitHub username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
       />
       <button type="submit">Search</button>
     </form>

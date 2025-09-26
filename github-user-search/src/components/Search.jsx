@@ -3,6 +3,8 @@ import { searchUsers } from "../services/githubService";
 
 const Search = () => {
   const [username, setUsername] = useState("");
+  const [location, setLocation] = useState("");
+  const [minRepos, setMinRepos] = useState("");
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -14,7 +16,7 @@ const Search = () => {
     setUsers([]);
 
     try {
-      const results = await searchUsers(username);
+      const results = await searchUsers({ username, location, minRepos });
       if (results.length === 0) {
         setError("Looks like we can't find the user");
       } else {
@@ -28,15 +30,35 @@ const Search = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSearch}>
+    <div className="p-4 max-w-md mx-auto">
+      <form onSubmit={handleSearch} className="flex flex-col gap-2">
         <input
           type="text"
-          placeholder="Enter GitHub username"
+          placeholder="GitHub username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          className="p-2 border rounded"
         />
-        <button type="submit">Search</button>
+        <input
+          type="text"
+          placeholder="Location"
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+          className="p-2 border rounded"
+        />
+        <input
+          type="number"
+          placeholder="Minimum repositories"
+          value={minRepos}
+          onChange={(e) => setMinRepos(e.target.value)}
+          className="p-2 border rounded"
+        />
+        <button
+          type="submit"
+          className="bg-blue-500 text-white p-2 rounded"
+        >
+          Search
+        </button>
       </form>
 
       {loading && <p>Loading...</p>}
@@ -45,13 +67,20 @@ const Search = () => {
       {users.map((user) => (
         <div
           key={user.id}
-          style={{ border: "1px solid #ccc", padding: "10px", marginTop: "10px" }}
+          className="border p-2 mt-2 rounded flex items-center gap-2"
         >
           <img src={user.avatar_url} alt={user.login} width="50" />
-          <h3>{user.login}</h3>
-          <a href={user.html_url} target="_blank" rel="noopener noreferrer">
-            View GitHub Profile
-          </a>
+          <div>
+            <h3>{user.login}</h3>
+            <p>{user.location || "Location unknown"}</p>
+            <a
+              href={user.html_url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View Profile
+            </a>
+          </div>
         </div>
       ))}
     </div>

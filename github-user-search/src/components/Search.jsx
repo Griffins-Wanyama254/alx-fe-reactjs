@@ -1,22 +1,26 @@
 import React, { useState } from "react";
-import { fetchUserData } from "../services/githubService";
+import { searchUsers } from "../services/githubService";
 
 const Search = () => {
   const [username, setUsername] = useState("");
-  const [userData, setUserData] = useState(null);
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const handleSubmit = async (e) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    setUserData(null);
+    setUsers([]);
 
     try {
-      const data = await fetchUserData(username);
-      setUserData(data);
-    } catch (err) {
+      const results = await searchUsers(username);
+      if (results.length === 0) {
+        setError("Looks like we can't find the user");
+      } else {
+        setUsers(results);
+      }
+    } catch {
       setError("Looks like we can't find the user");
     } finally {
       setLoading(false);
@@ -25,7 +29,7 @@ const Search = () => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSearch}>
         <input
           type="text"
           placeholder="Enter GitHub username"
@@ -37,15 +41,19 @@ const Search = () => {
 
       {loading && <p>Loading...</p>}
       {error && <p>{error}</p>}
-      {userData && (
-        <div style={{ border: "1px solid #ccc", padding: "10px", marginTop: "10px" }}>
-          <img src={userData.avatar_url} alt={userData.login} width="50" />
-          <h3>{userData.name || userData.login}</h3>
-          <a href={userData.html_url} target="_blank" rel="noopener noreferrer">
+
+      {users.map((user) => (
+        <div
+          key={user.id}
+          style={{ border: "1px solid #ccc", padding: "10px", marginTop: "10px" }}
+        >
+          <img src={user.avatar_url} alt={user.login} width="50" />
+          <h3>{user.login}</h3>
+          <a href={user.html_url} target="_blank" rel="noopener noreferrer">
             View GitHub Profile
           </a>
         </div>
-      )}
+      ))}
     </div>
   );
 };

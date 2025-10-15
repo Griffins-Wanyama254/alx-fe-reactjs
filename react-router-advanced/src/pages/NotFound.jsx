@@ -1,4 +1,9 @@
-function NotFound() {
-  return <h1 className="text-center mt-10 text-red-600">404 - Page Not Found</h1>;
-}
+const NotFound = () => {
+  return (
+    <div>
+      <h1>404 - Page Not Found 😢</h1>
+    </div>
+  );
+};
+
 export default NotFound;

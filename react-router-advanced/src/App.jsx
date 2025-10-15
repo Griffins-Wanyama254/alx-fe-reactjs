@@ -1,37 +1,40 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Profile from "./pages/Profile";
-import BlogPost from "./pages/BlogPost";
+import Settings from "./pages/Settings";
+import Blog from "./pages/Blog";
 import NotFound from "./pages/NotFound";
+import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
 
 function App() {
-  // Simulated authentication state
-  const isAuthenticated = false; // Change to true to test protected routes
-
   return (
-    <Router>
+    <>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
 
-        {/* Protected Route */}
+        {/* Protected and Nested Route */}
         <Route
-          path="/profile/*"
+          path="/profile"
           element={
-            isAuthenticated ? <Profile /> : <Navigate to="/" replace />
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
           }
-        />
+        >
+          <Route path="settings" element={<Settings />} />
+        </Route>
 
-        {/* Dynamic Route Example */}
-        <Route path="/blog/:id" element={<BlogPost />} />
+        {/* Dynamic route */}
+        <Route path="/blog/:id" element={<Blog />} />
 
-        {/* 404 Fallback */}
+        {/* Fallback */}
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </Router>
+    </>
   );
 }
 

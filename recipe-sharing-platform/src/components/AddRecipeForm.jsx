@@ -9,45 +9,40 @@ function AddRecipeForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validation checks
-    if (!title || !ingredients || !steps) {
-      setError("Please fill in all fields before submitting.");
+    // Simple front-end validation
+    if (!title.trim() || !ingredients.trim() || !steps.trim()) {
+      setError("All fields are required.");
       return;
     }
 
-    const ingredientList = ingredients.split(",").map((item) => item.trim());
+    const ingredientList = ingredients.split(",").map((i) => i.trim());
     if (ingredientList.length < 2) {
-      setError("Please include at least two ingredients separated by commas.");
+      setError("Please include at least two ingredients.");
       return;
     }
 
+    // Passed validation
     setError("");
-    const newRecipe = {
-      title,
-      ingredients: ingredientList,
-      steps,
-    };
+    alert("Recipe submitted successfully!");
 
-    console.log("New Recipe Submitted:", newRecipe);
-
-    // Clear form after submission
+    // Clear form
     setTitle("");
     setIngredients("");
     setSteps("");
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
+    <div className="min-h-screen bg-gray-100 flex justify-center items-center p-4">
       <form
         onSubmit={handleSubmit}
-        className="bg-white shadow-lg rounded-lg p-8 w-full max-w-lg"
+        className="bg-white shadow-md rounded-lg w-full sm:w-3/4 md:w-1/2 lg:w-1/3 p-6"
       >
-        <h2 className="text-2xl font-bold text-blue-700 mb-6 text-center">
+        <h1 className="text-2xl font-bold text-center text-blue-600 mb-6">
           Add a New Recipe
-        </h2>
+        </h1>
 
         {error && (
-          <p className="text-red-600 text-sm mb-4 text-center">{error}</p>
+          <p className="text-red-500 text-center text-sm mb-4">{error}</p>
         )}
 
         <div className="mb-4">
@@ -58,21 +53,21 @@ function AddRecipeForm() {
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400"
             placeholder="Enter recipe title"
-            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
         <div className="mb-4">
           <label className="block text-gray-700 font-semibold mb-2">
-            Ingredients (separated by commas)
+            Ingredients (comma separated)
           </label>
           <textarea
             value={ingredients}
             onChange={(e) => setIngredients(e.target.value)}
-            placeholder="e.g., eggs, flour, sugar"
+            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400"
+            placeholder="e.g. sugar, flour, eggs"
             rows="3"
-            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           ></textarea>
         </div>
 
@@ -83,15 +78,15 @@ function AddRecipeForm() {
           <textarea
             value={steps}
             onChange={(e) => setSteps(e.target.value)}
-            placeholder="Describe the preparation process..."
+            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400"
+            placeholder="Describe how to prepare the recipe"
             rows="4"
-            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           ></textarea>
         </div>
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded-md font-semibold hover:bg-blue-700 transition-colors duration-300"
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-md transition duration-300"
         >
           Submit Recipe
         </button>

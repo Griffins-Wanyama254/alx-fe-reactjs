@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom"; // ✅ Import Link from React Router
 
 function HomePage() {
   const [recipes, setRecipes] = useState([]);
@@ -15,11 +16,13 @@ function HomePage() {
       <h1 className="text-3xl font-bold text-center text-blue-800 mb-8">
         Recipe Sharing Platform
       </h1>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {recipes.map((recipe) => (
-          <div
+          <Link
+            to={`/recipe/${recipe.id}`} // ✅ Dynamic link to Recipe Detail
             key={recipe.id}
-            className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out transform hover:scale-105 p-4"
+            className="bg-white rounded-lg shadow-md hover:shadow-xl transition-transform duration-300 ease-in-out transform hover:scale-105 p-4 block"
           >
             <img
               src={recipe.image}
@@ -30,7 +33,7 @@ function HomePage() {
               {recipe.title}
             </h2>
             <p className="text-gray-600 text-sm">{recipe.summary}</p>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

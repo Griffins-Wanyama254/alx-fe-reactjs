@@ -1,9 +1,5 @@
-const Settings = () => {
-  return (
-    <div>
-      <h2>⚙️ Profile Settings Page</h2>
-    </div>
-  );
-};
+function Settings() {
+  return <h2>Profile Settings Page</h2>;
+}
 
 export default Settings;

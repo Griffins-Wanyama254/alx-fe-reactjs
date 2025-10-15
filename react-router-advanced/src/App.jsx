@@ -9,29 +9,25 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
 
 function App() {
+  const isAuthenticated = true;
+
   return (
     <>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-
-        {/* Protected and Nested Route */}
         <Route
           path="/profile"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
               <Profile />
             </ProtectedRoute>
           }
         >
           <Route path="settings" element={<Settings />} />
         </Route>
-
-        {/* Dynamic route */}
         <Route path="/blog/:id" element={<Blog />} />
-
-        {/* Fallback */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>

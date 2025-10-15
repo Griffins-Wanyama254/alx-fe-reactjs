@@ -3,14 +3,10 @@ import * as Yup from "yup";
 
 function FormikForm() {
   const validationSchema = Yup.object({
-    username: Yup.string().required("Username is required"),
-    email: Yup.string()
-      .email("Invalid email address")
-      .required("Email is required"),
-    password: Yup.string()
-      .min(6, "Password must be at least 6 characters")
-      .required("Password is required"),
-  });
+  username: Yup.string().required("Username is required"),
+  email: Yup.string().email("Invalid email").required("Email is required"),
+  password: Yup.string().min(6).required("Password is required"),
+});
 
   const initialValues = {
     username: "",
@@ -24,7 +20,7 @@ function FormikForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -33,7 +29,7 @@ function FormikForm() {
         {() => (
           <Form className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
             <h2 className="text-2xl font-bold mb-6 text-center text-blue-700">
-              User Registration (Formik)
+              Formik Registration Form
             </h2>
 
             <div className="mb-4">

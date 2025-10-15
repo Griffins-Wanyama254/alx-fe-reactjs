@@ -5,9 +5,11 @@ function FormikForm() {
   const validationSchema = Yup.object({
     username: Yup.string().required("Username is required"),
     email: Yup.string()
-      .email("Invalid email format")
+      .email("Invalid email address")
       .required("Email is required"),
-    password: Yup.string().min(6, "Minimum 6 characters").required("Password is required"),
+    password: Yup.string()
+      .min(6, "Password must be at least 6 characters")
+      .required("Password is required"),
   });
 
   const initialValues = {
@@ -18,7 +20,7 @@ function FormikForm() {
 
   const handleSubmit = (values) => {
     console.log("Formik form submitted:", values);
-    alert("User Registered Successfully (Formik)!");
+    alert("Formik form submitted successfully!");
   };
 
   return (
@@ -39,12 +41,12 @@ function FormikForm() {
               <Field
                 name="username"
                 type="text"
-                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-200"
+                className="w-full p-2 border border-gray-300 rounded"
               />
               <ErrorMessage
                 name="username"
                 component="div"
-                className="text-red-500 text-sm mt-1"
+                className="text-red-500 text-sm"
               />
             </div>
 
@@ -53,12 +55,12 @@ function FormikForm() {
               <Field
                 name="email"
                 type="email"
-                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-200"
+                className="w-full p-2 border border-gray-300 rounded"
               />
               <ErrorMessage
                 name="email"
                 component="div"
-                className="text-red-500 text-sm mt-1"
+                className="text-red-500 text-sm"
               />
             </div>
 
@@ -67,18 +69,18 @@ function FormikForm() {
               <Field
                 name="password"
                 type="password"
-                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-200"
+                className="w-full p-2 border border-gray-300 rounded"
               />
               <ErrorMessage
                 name="password"
                 component="div"
-                className="text-red-500 text-sm mt-1"
+                className="text-red-500 text-sm"
               />
             </div>
 
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+              className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
             >
               Register
             </button>
@@ -90,4 +92,3 @@ function FormikForm() {
 }
 
 export default FormikForm;
-
